@@ -1,0 +1,156 @@
+//article标签
+.tag{
+  font-size: 13px;
+  padding: 3px 5px;
+  margin-right: 5px;
+  color: #ffffff;
+  cursor: pointer;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+.tag_default{
+  color: #353F4F;
+  background: rgba(53, 63, 79, 0.08);
+  &:hover{
+    color: #ffffff;
+    background: rgba(53, 63, 79, 1);
+  }
+}
+.tag_success{
+  color: #1abc9c;
+  background:  rgba(1,126,102,0.08);
+  &:hover{
+    color: #ffffff;
+    background:  rgba(1,126,102,1);
+  }
+}
+
+//原创标签或转载标签
+.mark_custom{
+  font-size: 13px;
+  padding: 0px 7px;
+  cursor: default;
+  border-radius: 11px;
+  margin-right: 10px;
+}
+.mark_original{//原创
+  color: #F2AE43;
+  background-color: rgba(242,174,67,0.25);
+}
+.mark_reprint{//转载
+  //color: rgb(75,129,188);
+  color: rgb(79,168,211);
+  //background-color: rgba(75,129,188,0.25);
+  background-color: rgba(79,168,211,0.25);
+}
+
+//文章详情页样式  markdown
+.main_content{
+  color: #666;
+  line-height: 26px;
+  h1,h2,h3,h4,h5,h6{
+    padding: 10px 0;
+    margin-bottom: 10px;
+    color: #101010;
+  }
+  h1{
+    font-size: 26px;
+    font-weight: 500;
+    border-bottom: 1px solid #eee;
+  }
+  h2{
+    font-size: 24px;
+    font-weight: 500;
+    border-bottom: 1px solid #eee;
+  }
+  h3{
+    font-size: 22px;
+    font-weight: 500;
+    border-bottom: 1px solid #eee;
+  }
+  h4{
+    font-size: 20px;
+    font-weight: 400;
+    border-bottom: 1px solid #eee;
+  }
+  h5{
+    font-size: 18px;
+    font-weight: 400;
+    border-bottom: 1px solid #eee;
+  }
+  h6{
+    font-size: 16px;
+    font-weight: 400;
+    border-bottom: 1px solid #eee;
+  }
+  blockquote{
+    border-left: 3px solid #1abc9c;
+    background: #F6F6F6;
+    font-size: 14px;
+    line-height: 26px;
+    margin-bottom: 20px;
+  }
+  pre{
+    background: #eee url('/static/images/blueprint.png');
+    max-height: 450px;
+    overflow: auto;
+    code{
+      display: inline-block;
+      margin: 5px 0;
+    }
+  }
+  a{
+    color: #1abc9c;
+    border-bottom: 1px solid rgba(0,154,97,0.25);
+    &:hover{
+      text-decoration: none;
+      color: #009a61;
+      border-bottom: 1px solid rgba(0,154,97,1);
+    }
+  }
+  img{
+    border: 1px solid #e0e0e0;
+    padding: 3px;
+    max-width: 100%;
+  }
+
+  //code部分
+  .hljs-comment, .hljs-quote{
+    font-style: italic;
+    color: #998;
+  }
+
+  .hljs-string{
+    color: #d14;
+  }
+
+  .hljs-number, .hljs-literal, .hljs-variable, .hljs-template-variable, .hljs-tag .hljs-attr{
+    color: #008080;
+  }
+
+  .hljs-keyword, .hljs-selector-tag, .hljs-subst{
+    color: #333;
+    font-weight: bold;
+  }
+
+  .hljs-title{
+    color: #458;
+  }
+
+  .hljs-built_in, .hljs-builtin-name {
+    color: #0086b3;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .my-footer{
+    margin-top: 0!important;
+  }
+  .my_header{
+    .search_wrap{
+      padding: 13px 20px;
+    }
+  }
+}
+
