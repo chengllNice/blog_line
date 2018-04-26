@@ -117,19 +117,33 @@
           {
             title: '浏览量',
             key: 'views',
-            width: '80px'
+            width: 80
           },
           {
             title: '点赞数',
             key: 'likes',
-            width: '80px'
+            width: 80
           },
           {
             title: '评论数',
             key: 'commit',
-            width: '80px',
+            width: 80,
             render: (h, params) => {
-              return h('div', params.row.commit.length);
+              return h('div', [
+                h('span', {
+                  style: {
+                    marginRight: '8px'
+                  }
+                }, params.row.commit.length),
+                h('span',{
+                  style: {
+                    background: '#ed3f14',
+                    color: '#fff',
+                    fontSize: '12px',
+                    borderRadius: '8px'
+                  }
+                },0)
+              ]);
             }
           },
           {
@@ -142,7 +156,7 @@
           {
             title: '展示状态',
             key: 'status',
-            width: '132px',
+            width: 132,
             render: (h, params) => {
               return h('div', [
                 h('Tag', {
@@ -167,7 +181,7 @@
           {
             title: '编辑',
             key: 'operate',
-            width: '200px',
+            width: 200,
             render: (h, params) => {
               let isUser = false;
               if(!this.userInfo.superAdmin){
@@ -230,6 +244,7 @@
         this.spinShow = true;
         let page = this.page || 1;
         articleList(page, condition, searchText).then((response) => {
+          console.log(response)
           this.data1 = response.data.data;
           this.totalData = response.data.pagenation.count;
           this.pageSize = response.data.pagenation.pageSize;

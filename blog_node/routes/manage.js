@@ -109,7 +109,10 @@ router.get('/deleteArticle', article.deleteArticle);
 router.get('/articleDetail', article.articleDetail);
 //删除评论内容
 router.get('/deleteCommit', article.deleteCommit);
+//修改博文展示状态
 router.post('/changeArticleStatus', article.changeArticleStatus);
+//修改评论状态
+router.post('/changeCommitStatus', article.changeCommitStatus);
 
 /*图片banner管理*/
 //添加上传图片

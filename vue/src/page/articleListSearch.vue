@@ -108,7 +108,7 @@
             this.moduleData = response.data.data;
           }
         }).catch((err) => {
-          alert(err)
+          this.$toast.error(err)
         })
       },
       searchArticleHandler(page, subCategoryId, searchText){
@@ -120,7 +120,7 @@
           this.pageCount = response.data.pagenation.pageCount;
           this.pageHandler();
         }).catch((err) => {
-          alert(err)
+          this.$toast.error(err)
         })
       },
       pageHandler(){

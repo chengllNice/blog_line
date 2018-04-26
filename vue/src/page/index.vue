@@ -114,7 +114,7 @@
           this.pageCount = response.data.pagenation.pageCount;
           this.pageHandler();
         }).catch((err) => {
-          alert(err)
+          this.$toast.error(err)
         });
 
         getBannerImage().then((response) => {
@@ -122,7 +122,7 @@
             this.bannerData = response.data.data;
           }
         }).catch((err) => {
-          alert(err)
+          this.$toast.error(err)
         });
 
         getCustomModuleList().then((response) => {
@@ -130,7 +130,7 @@
             this.moduleData = response.data.data;
           }
         }).catch((err) => {
-          alert(err)
+          this.$toast.error(err)
         })
       },
       pageHandler(){

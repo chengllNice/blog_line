@@ -69,7 +69,7 @@
           {
             title: '模块状态',
             key: 'status',
-            width: '140',
+            width: 140,
             render: (h, params) => {
               return h('div', [
                 h('Tag', {
@@ -94,7 +94,7 @@
           {
             title: '是否显示模块名',
             key: 'nameMark',
-            width: '140',
+            width: 140,
             render: (h, params) => {
               return h('div', [
                 h('Tag', {
@@ -118,7 +118,7 @@
           {
             title: '编辑',
             key: 'action',
-            width: '130',
+            width: 130,
             render: (h, params) => {
               return h('div', [
                 h('Button', {

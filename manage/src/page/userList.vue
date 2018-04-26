@@ -140,7 +140,7 @@
           {
             title: '操作',
             key: 'action',
-            width: '100px',
+            width: 100,
             render: (h, params) => {
               if(this.userInfo.superAdmin){//如果登录用户是超级管理员
                 if(params.row.superAdmin){

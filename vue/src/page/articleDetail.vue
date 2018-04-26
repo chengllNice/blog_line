@@ -38,8 +38,8 @@
                 </div>
               </div>
 
-              <div class="commit_list" v-if="articleData.commit">
-                <div class="commit_item" v-for="(commitItem, index) in articleCommit">
+              <div class="commit_list" v-if="commitData.length">
+                <div class="commit_item" v-for="(commitItem, index) in commitData">
                   <div class="user_img"><img src="../../static/images/userDefault.jpg" alt=""></div>
                   <div class="user_commit_info">
                     <div class="user_name_time">
@@ -66,6 +66,8 @@
 <script>
   import { articleDetail, submitCommit, getCustomModuleList } from '../axios/getData'
   import CustomModule from '@/components/customModule'
+  import io from 'socket.io-client'
+
 
   export default {
     name: "article-detail",
@@ -73,7 +75,10 @@
       return {
         articleContent: {},
         articleData: {},
-        moduleData: []
+        moduleData: [],
+        socket: null,
+        articleTitle: '',
+        commitData: []
       }
     },
     components: {
@@ -96,19 +101,20 @@
           name = this.articleData.subcategory.name
         }
         return name;
-      },
-      articleCommit(){
-        return this.articleData.commit.reverse();
       }
     },
     methods: {
       init(){
+        this.socket = io('http://localhost:3000');
+
         let id = this.articleId;
         articleDetail(id).then((response) => {
+          this.articleTitle = response.data.data.title;
           this.articleData = response.data.data;
+          this.commitData = response.data.data.commit.reverse();
           this.articleContent = response.data.data.content.article;
         }).catch((err) => {
-          alert(err)
+          this.$toast.error(err)
         });
 
         getCustomModuleList().then((response) => {
@@ -116,25 +122,27 @@
             this.moduleData = response.data.data;
           }
         }).catch((err) => {
-          alert(err)
+          this.$toast.error(err)
         })
       },
       submitCommitHandler(){
         let id = this.articleId;
         let commitText = $('#commitContent').val().trim();
-        if(!commitText){
-          alert('请输入正确的评论信息');
+        if(!commitText || commitText.length > 200){
+          this.$toast.error('请输入正确的评论信息');
           return;
         }
         submitCommit(id, commitText).then((response) => {
           if(!response.data.status){
             this.init();
+            let articleTitle = this.articleTitle;
+            this.socket.emit('commitwillsubmit', {msg: {id: id, title: articleTitle, text: commitText}});
             $('#commitContent').val('');
           }else{
-            alert(response.data.message)
+            this.$toast.error(response.data.message)
           }
         }).catch((err) => {
-          alert(err)
+          this.$toast.error(err)
         })
       }
     },

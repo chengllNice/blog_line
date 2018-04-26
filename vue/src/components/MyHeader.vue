@@ -74,16 +74,16 @@
                   categoryData: categoryData
                 })
               }else{
-                alert(res.data.message)
+                this.$toast.error(res.data.message)
               }
             }).catch((err) => {
-              alert(err)
+              this.$toast.error(err)
             })
           }else{
-            alert(response.data.message)
+            this.$toast.error(response.data.message)
           }
         }).catch((err) => {
-          alert(err)
+          this.$toast.error(err)
         })
       },
       categoryFormat(data){

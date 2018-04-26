@@ -2,7 +2,7 @@
     <div class="my-footer">
       <div class="footer_box">
         <p>Powered by vue | Designed by chengll</p>
-        <p>Copyright© 2009-2018 程路路-路无止境</p>
+        <p>Copyright© 程路路-路无止境</p>
         <p></p>
       </div>
     </div>

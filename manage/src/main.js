@@ -6,6 +6,10 @@ import router from './router'
 import store from './vuex/stores'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
+import VueSocketio from 'vue-socket.io'
+import socketio from 'socket.io-client'
+
+Vue.use(VueSocketio, socketio('http://localhost:3000'));
 
 Vue.use(iView);
 Vue.prototype.dateFormat = (value) => {

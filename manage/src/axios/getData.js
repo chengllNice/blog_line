@@ -293,12 +293,27 @@ export const articleList = (page, condition, searchText) => {
     })
   })
 };
-
 //修改博文显示状态
 export const changeArticleStatus = (id) => {
   return new Promise((resolve, reject) => {
     axios.post(BASE_URL + '/changeArticleStatus', {
       id: id
+    }).then((result) => {
+      if(!result.data.status){
+        resolve(result)
+      }else{
+        reject(result.data.message)
+      }
+    })
+  })
+};
+//修改博文显示状态
+export const changeCommitStatus = (articleId, commitId, status) => {
+  return new Promise((resolve, reject) => {
+    axios.post(BASE_URL + '/changeCommitStatus', {
+      articleId: articleId,
+      commitId: commitId,
+      status: status
     }).then((result) => {
       if(!result.data.status){
         resolve(result)

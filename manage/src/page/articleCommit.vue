@@ -27,11 +27,21 @@
       <h2>评论列表</h2>
       <div class="commit_list">
         <div class="commit_item" v-for="(item, index) in commit" :key="index">
-          <div class="commit_name">{{item.name}}</div>
-          <div class="commit_content">{{item.content}}</div>
-          <div class="commit_data">{{item.createdDate | dateFilter}}</div>
+          <div class="commit_left">
+            <div class="commit_header">
+              <div class="commit_name">{{item.userName}}</div>
+              <div class="commit_data">{{item.createdDate | dateFilter}}</div>
+              <div class="commit_status" @click="changeCommitStatusHandler(item.id, item.status)">
+                <span class="tag tag_error" v-if="item.status == '未读'" color="red">{{item.status}}</span>
+                <span class="tag tag_success" v-else color="blue">{{item.status}}</span>
+              </div>
+            </div>
+            <div class="commit_content">{{item.content}}</div>
+          </div>
           <div class="opare">
-            <a @click="deleteHandler(item.id)" v-if="userInfo._id === articleData.user">删除</a>
+            <span @click="deleteHandler(item.id)" v-if="userInfo._id === articleData.user">
+              <Icon type="trash-a"></Icon>
+            </span>
           </div>
         </div>
       </div>
@@ -43,7 +53,7 @@
 </template>
 
 <script>
-  import { articleDetail, deleteCommit } from "../axios/getData";
+  import { articleDetail, deleteCommit, changeCommitStatus } from "../axios/getData";
   import { mapState } from 'vuex'
   export default {
     name: "article-commit",
@@ -71,8 +81,8 @@
         articleDetail(articleId).then((response) => {
           this.articleData = response.data.data;
           this.totalCommit = response.data.data.commit.length;
-          this.commitList = response.data.data.commit;
-          this.commit = this.commitList.slice(0, this.pageSize)
+          this.commitList = response.data.data.commit.reverse();
+          this.commit = this.commitList.slice(0, this.pageSize);
         }).catch((err) => {
           this.$Message.error(err)
         })
@@ -90,6 +100,27 @@
             this.init();
           }else{
             this.$Message.error('删除评论失败')
+          }
+        }).catch((err) => {
+          this.$Message.error(err)
+        })
+      },
+      changeCommitStatusHandler(commitId, status){
+        let articleId = this.articleData._id;
+        let statusEnd = '';
+        if(status == '未读'){
+          statusEnd = '已读';
+        }else{
+          statusEnd = '未读'
+        }
+        changeCommitStatus(articleId, commitId, statusEnd).then((response) => {
+          let res = response.data;
+          console.log(!res.status)
+          if(!res.status){
+            this.$Message.success(res.message);
+            this.init();
+          }else{
+            this.$Message.error(res.message);
           }
         }).catch((err) => {
           this.$Message.error(err)
@@ -157,22 +188,83 @@
         margin-bottom: 20px;
       }
       .commit_list{
+        margin-bottom: 20px;
         .commit_item{
-          border-bottom: 1px solid #ccc;
-          padding-bottom: 10px;
-          margin-bottom: 10px;
-          .commit_name{
-            margin-bottom: 5px;
-            font-weight: bold;
+          border: 1px solid #ddd;
+          margin-bottom: -1px;
+          background: #ffffff;
+          display: flex;
+          align-items: stretch;
+          justify-content: space-between;
+          &:nth-of-type(1){
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
           }
-          .commit_content{
-            margin: 5px 0 10px 0;
+          &:nth-last-of-type(1){
+            margin-bottom: 0;
+            border-bottom-right-radius: 4px;
+            border-bottom-left-radius: 4px;
           }
-          .commit_data{
-            margin-bottom: 5px;
+
+          .commit_left{
+            flex: 1;
+            padding: 10px 15px;
+            .commit_header{
+              display: flex;
+              align-items: center;
+
+              .commit_name{
+                font-weight: bold;
+                margin: 2px 0;
+                margin-right: 15px;
+              }
+              .commit_data{
+                margin: 2px 0;
+                margin-right: 15px;
+              }
+              .commit_status{
+                .tag{
+                  display: inline-block;
+                  height: 22px;
+                  line-height: 22px;
+                  margin: 2px 4px 2px 0;
+                  padding: 0 8px;
+                  border-radius: 3px;
+                  font-size: 12px;
+                  vertical-align: middle;
+                  opacity: 1;
+                  overflow: hidden;
+                  cursor: pointer;
+                  color: #ffffff;
+                }
+                .tag_success{
+                  background: #2d8cf0;
+                  &:hover{
+                    opacity: 0.85;
+                  }
+                }
+                .tag_error{
+                  background: #ed3f14;
+                  &:hover{
+                    opacity: 0.85;
+                  }
+                }
+              }
+            }
+            .commit_content{
+              margin: 5px 0 10px 0;
+            }
           }
           .opare{
-
+            width: 60px;
+            height: auto;
+            line-height: 75px;
+            cursor: pointer;
+            background: #ed3f14;
+            color: #ffffff;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 200;
           }
         }
       }

@@ -87,6 +87,11 @@
       </Layout>
     </Layout>
 
+    <audio id="bgsound">
+      <source src="../assets/bgsound.mp3" type="audio/mpeg">
+      <source src="../assets/bgsound.wav" type="audio/wav">
+    </audio>
+
     <!--修改管理员的模态框-->
     <Modal
       v-model="editPasModel"
@@ -222,7 +227,28 @@
     },
     mounted() {
       this.init();
-    }
+    },
+    sockets:{
+      connect: function(){
+        console.log('socket connected')
+      },
+      commitSubmitDid: function(val){
+        this.$Notice.open({
+          title: '您有一条新的评论信息',
+          desc: '111',
+          render: h => {
+            return h('div', [
+              h('p', val.data.msg.title),
+              h('span', val.data.msg.text)
+            ])
+          },
+          duration: 0
+        });
+        if(val){
+          $('#bgsound').trigger('play');
+        }
+      }
+    },
   }
 </script>
 

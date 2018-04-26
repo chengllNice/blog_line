@@ -2,9 +2,11 @@
     <div class="modal_custom">
       <!--全局提示框组件-->
       <transition name="toast">
-        <div v-if="visible" class="dialog-tips dialog-center">
-          <div class="toast_icon_box"><img class="toast_icon" :src="icon_path" alt=""></div>
-          <div>{{message}}</div>
+          <div v-if="visible" class="dialog-tips dialog-center">
+            <div class="dialog_outer">
+              <div class="toast_icon_box"><img class="toast_icon" :src="icon_path" alt=""></div>
+              <div>{{message}}</div>
+            </div>
         </div>
       </transition>
     </div>
@@ -42,9 +44,9 @@
       opacity: 0;
     }
 
-    .dialog-tips{
-      position: fixed;
-      z-index: 2000;
+    .dialog_outer{
+      position: relative;
+      left: -50%;
       white-space: nowrap;
       padding: 6px 12px 8px 12px;
       background-color: #fefefe;
@@ -55,6 +57,10 @@
       display: flex;
       flex-direction: row;
       align-items: center;
+    }
+    .dialog-tips{
+      position: fixed;
+      z-index: 2000;
     }
     .dialog-center {
       top: 50px;

@@ -7,6 +7,7 @@ const Article = require('../schema/article');
 const CustomModule = require('../schema/customModule');
 const Image = require('../schema/image');
 
+
 //查询博文列表
 router.get('/articleList', (req, res, next) => {
   let page = req.query.page || 1;
@@ -128,10 +129,10 @@ router.get('/getSubCategory', (req, res, next) => {
 
 //博文评论信息保存
 router.post('/commitText', (req, res, next) => {
-  console.log(req.body)
   let articleId = req.body.articleId;
   let commitText = req.body.commitText;
   let userName = '匿名';
+  let status = '未读';
   let commitId = 0;
 
   Article.findOne({
@@ -144,11 +145,12 @@ router.post('/commitText', (req, res, next) => {
       _id: articleId
     },{
       $push: {
-        commit: {
+        'commit': {
           id: commitId,
           userName: userName,
           createdDate: new Date(),
-          content: commitText
+          content: commitText,
+          status: status
         }
       }
     }).then((result) => {

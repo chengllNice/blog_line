@@ -261,6 +261,36 @@ const changeArticleStatus = (req, res, next) => {
   });
 
 };
+//修改评论阅读状态
+const changeCommitStatus = (req, res, next) => {
+  let id = req.body.articleId;
+  let status = req.body.status;
+  let commitId = req.body.commitId;
+  console.log(id, status, commitId)
+  Article.updateOne({
+    _id: id,
+    'commit.id': commitId
+  },{
+    $set: {
+      'commit.$.status': status
+    }
+  }).then((result) => {
+    console.log(result)
+    if(result.n){
+      res.json({
+        status: 0,
+        message: '修改成功',
+        data: ''
+      })
+    }else{
+      res.json({
+        status: 1,
+        message: '修改失败',
+        data: ''
+      })
+    }
+  })
+};
 
 module.exports = {
   addArticle,
@@ -270,5 +300,6 @@ module.exports = {
   deleteArticle,
   articleDetail,
   deleteCommit,
-  changeArticleStatus
+  changeArticleStatus,
+  changeCommitStatus
 };

@@ -14,12 +14,13 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "babel-polyfill": "^6.26.0",
     "echarts": "^4.0.4",
     "iview": "^2.10.0",
     "mavon-editor": "^2.5.1",
+    "socket.io-client": "^2.1.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
+    "vue-socket.io": "^2.1.1-b",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
