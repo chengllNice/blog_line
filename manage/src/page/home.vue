@@ -55,35 +55,41 @@
         </Menu>
       </Sider>
       <Layout>
-        <Header :style="{padding: 0}" class="layout-header-bar">
-          <div class="header_wrap">
-            <div class="wellcome">
-              <span v-if="userInfo.superAdmin">您是超级管理员</span>
-              <span v-else>您是普通管理员</span>
-            </div>
-            <div class="header_box">
-              <div class="item">
-                <Badge count="3">
-                  <Icon type="ios-bell-outline"></Icon>
-                </Badge>
+        <div style="height: 100%;overflow: auto">
+          <div class="" style="min-width: 1200px;">
+            <Header :style="{padding: 0}" class="layout-header-bar">
+              <div class="header_wrap">
+                <div class="wellcome">
+                  <span v-if="userInfo.superAdmin">您是超级管理员</span>
+                  <span v-else>您是普通管理员</span>
+                </div>
+                <div class="header_box">
+                  <div class="item">
+                    <Badge count="3">
+                      <Icon type="ios-bell-outline"></Icon>
+                    </Badge>
+                  </div>
+                </div>
+                <Menu mode="horizontal">
+                  <Submenu name="userInfo">
+                    <template slot="title">
+                      <Avatar :src="userAvatar" class="userAvatar"></Avatar>
+                      <span class="username" v-if="userInfo.name">{{userInfo.name}}</span>
+                      <span class="username" v-else>请登录</span>
+                    </template>
+                    <MenuItem name="edit_psd" class="login_out"><span @click="editPasswordHandler">修改密码</span></MenuItem>
+                    <MenuItem name="login_out" class="login_out"><span @click="loginOutHandler">退出</span></MenuItem>
+                  </Submenu>
+                </Menu>
               </div>
-            </div>
-            <Menu mode="horizontal">
-              <Submenu name="userInfo">
-                <template slot="title">
-                  <Avatar :src="userAvatar" class="userAvatar"></Avatar>
-                  <span class="username" v-if="userInfo.name">{{userInfo.name}}</span>
-                  <span class="username" v-else>请登录</span>
-                </template>
-                <MenuItem name="edit_psd" class="login_out"><span @click="editPasswordHandler">修改密码</span></MenuItem>
-                <MenuItem name="login_out" class="login_out"><span @click="loginOutHandler">退出</span></MenuItem>
-              </Submenu>
-            </Menu>
+            </Header>
+            <Content :style="{margin: '20px', background: '#fff', padding: '0 20px'}">
+              <router-view></router-view>
+            </Content>
           </div>
-        </Header>
-        <Content :style="{margin: '20px', background: '#fff', padding: '0 20px'}">
-          <router-view></router-view>
-        </Content>
+        </div>
+
+
       </Layout>
     </Layout>
 

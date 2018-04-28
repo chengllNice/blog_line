@@ -24,7 +24,9 @@
       </Card>
     </div>
     <div class="article_commit_box">
-      <h2>评论列表</h2>
+      <h2>评论列表
+        <span class="tag tag_success"  @click="changeCommitStatusHandler('全部')">全部标记为已读</span>
+      </h2>
       <div class="commit_list">
         <div class="commit_item" v-for="(item, index) in commit" :key="index">
           <div class="commit_left">
@@ -93,29 +95,38 @@
         this.commit = this.commitList.slice(startPage, endPage);
       },
       deleteHandler(commitId){
-        let articleId = this.$route.query.id;
-        deleteCommit(commitId, articleId).then((response) => {
-          if(!response.data.status){
-            this.$Message.success('删除评论成功');
-            this.init();
-          }else{
-            this.$Message.error('删除评论失败')
+
+        this.$Modal.confirm({
+          title: '删除评论',
+          content: '<p>是否确定删除该条评论？</p>',
+          onOk: () => {
+            let articleId = this.$route.query.id;
+            deleteCommit(commitId, articleId).then((response) => {
+              if(!response.data.status){
+                this.$Message.success('删除评论成功');
+                this.init();
+              }else{
+                this.$Message.error('删除评论失败')
+              }
+            }).catch((err) => {
+              this.$Message.error(err)
+            })
+          },
+          onCancel: () => {
+            this.$Message.info('您已取消删除');
           }
-        }).catch((err) => {
-          this.$Message.error(err)
-        })
+        });
       },
       changeCommitStatusHandler(commitId, status){
         let articleId = this.articleData._id;
         let statusEnd = '';
         if(status == '未读'){
           statusEnd = '已读';
-        }else{
+        }else if(status == '已读'){
           statusEnd = '未读'
         }
         changeCommitStatus(articleId, commitId, statusEnd).then((response) => {
           let res = response.data;
-          console.log(!res.status)
           if(!res.status){
             this.$Message.success(res.message);
             this.init();
@@ -223,32 +234,7 @@
                 margin-right: 15px;
               }
               .commit_status{
-                .tag{
-                  display: inline-block;
-                  height: 22px;
-                  line-height: 22px;
-                  margin: 2px 4px 2px 0;
-                  padding: 0 8px;
-                  border-radius: 3px;
-                  font-size: 12px;
-                  vertical-align: middle;
-                  opacity: 1;
-                  overflow: hidden;
-                  cursor: pointer;
-                  color: #ffffff;
-                }
-                .tag_success{
-                  background: #2d8cf0;
-                  &:hover{
-                    opacity: 0.85;
-                  }
-                }
-                .tag_error{
-                  background: #ed3f14;
-                  &:hover{
-                    opacity: 0.85;
-                  }
-                }
+
               }
             }
             .commit_content{
@@ -265,6 +251,12 @@
             text-align: center;
             font-size: 24px;
             font-weight: 200;
+            &:hover{
+              opacity: 0.85;
+            }
+            &:hover i{
+              transform: scale(1.2);
+            }
           }
         }
       }

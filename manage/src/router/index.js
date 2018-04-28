@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import Home from '@/page/home'
+/*import Home from '@/page/home'
 import Manage from '@/page/manage'
 import Category from '@/page/category'
 import AddCategory from '@/page/addCategory'
@@ -15,7 +14,53 @@ import UserList from '@/page/userList'
 import ImageList from '@/page/imageList'
 import AddModule from '@/page/addModule'
 import ModuleList from '@/page/ModuleList'
-import EditModule from '@/page/editModule'
+import EditModule from '@/page/editModule'*/
+
+const Home = r => require.ensure([], () => {
+  r(require('@/page/home'))
+}, 'home');
+const Manage = r => require.ensure([], () => {
+  r(require('@/page/manage'))
+}, 'manage');
+const Category = r => require.ensure([], () => {
+  r(require('@/page/category'))
+}, 'category');
+const AddCategory = r => require.ensure([], () => {
+  r(require('@/page/addCategory'))
+}, 'addCategory');
+const AddSubCategory = r => require.ensure([], () => {
+  r(require('@/page/addSubCategory'))
+}, 'addSubCategory');
+const ArticleList = r => require.ensure([], () => {
+  r(require('@/page/articleList'))
+}, 'articleList');
+const AddArticle = r => require.ensure([], () => {
+  r(require('@/page/addArticle'))
+}, 'addArticle');
+const EditArticle = r => require.ensure([], () => {
+  r(require('@/page/editArticle'))
+}, 'editArticle');
+const Login = r => require.ensure([], () => {
+  r(require('@/page/login'))
+}, 'login');
+const ArticleCommit = r => require.ensure([], () => {
+  r(require('@/page/articleCommit'))
+}, 'articleCommit');
+const UserList = r => require.ensure([], () => {
+  r(require('@/page/userList'))
+}, 'userList');
+const ImageList = r => require.ensure([], () => {
+  r(require('@/page/imageList'))
+}, 'imageList');
+const AddModule = r => require.ensure([], () => {
+  r(require('@/page/addModule'))
+}, 'addModule');
+const ModuleList = r => require.ensure([], () => {
+  r(require('@/page/moduleList'))
+}, 'moduleList');
+const EditModule = r => require.ensure([], () => {
+  r(require('@/page/editModule'))
+}, 'editModule');
 
 Vue.use(Router)
 

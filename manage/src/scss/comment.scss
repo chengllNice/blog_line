@@ -7,3 +7,30 @@ html, body{
 .bread_box{
   padding: 20px 0;
 }
+
+.tag{
+  display: inline-block;
+  height: 22px;
+  line-height: 22px;
+  margin: 2px 4px 2px 0;
+  padding: 0 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  vertical-align: middle;
+  opacity: 1;
+  overflow: hidden;
+  cursor: pointer;
+  color: #ffffff;
+}
+.tag_success{
+  background: #2d8cf0;
+  &:hover{
+    opacity: 0.85;
+  }
+}
+.tag_error{
+  background: #ed3f14;
+  &:hover{
+    opacity: 0.85;
+  }
+}

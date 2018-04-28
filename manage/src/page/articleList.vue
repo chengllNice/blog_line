@@ -129,21 +129,34 @@
             key: 'commit',
             width: 80,
             render: (h, params) => {
-              return h('div', [
-                h('span', {
-                  style: {
-                    marginRight: '8px'
-                  }
-                }, params.row.commit.length),
-                h('span',{
-                  style: {
-                    background: '#ed3f14',
-                    color: '#fff',
-                    fontSize: '12px',
-                    borderRadius: '8px'
-                  }
-                },0)
-              ]);
+              let commitArr = params.row.commit;
+              let noNum = 0;
+              commitArr.forEach((item, index) => {
+                if(item.status == '未读'){
+                  noNum++;
+                }
+              });
+              if(!noNum){
+                return h('div', params.row.commit.length);
+              }else{
+                return h('div', [
+                  h('span', {
+                    style: {
+                      marginRight: '8px'
+                    }
+                  }, params.row.commit.length),
+                  h('span',{
+                    style: {
+                      background: '#ed3f14',
+                      color: '#fff',
+                      padding: '2px 4px',
+                      fontSize: '12px',
+                      borderRadius: '8px',
+                      cursor: 'default'
+                    }
+                  },'+' + noNum)
+                ]);
+              }
             }
           },
           {

@@ -103,7 +103,6 @@
               data: this.moduleData.url
             }
           }
-          console.log(this.moduleData)
         }
       },
       handleView (name) {
