@@ -9,7 +9,7 @@
             <!--图片类型-->
             <div class="data_list" v-if="isModuleType">
 
-              <a :href="data.content[0].href" target="_blank">
+              <a style="margin: 0;" :href="data.content[0].href" target="_blank">
                 <img :src="data.content[0].url" alt="">
                 <p>{{data.content[0].title}}</p>
               </a>

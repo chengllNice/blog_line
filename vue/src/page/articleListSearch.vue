@@ -74,6 +74,8 @@
 <script>
   import CustomModule from '@/components/customModule'
   import { articleList, getCustomModuleList } from '../axios/getData'
+
+  let self;
   export default {
     name: "article-list-search",
     data(){
@@ -88,7 +90,9 @@
       }
     },
     computed: {
-
+      paramsText(){
+        return this.$route.query.searchText || this.$route.query.subCategoryId;
+      }
     },
     components: {
       CustomModule
@@ -114,13 +118,19 @@
       searchArticleHandler(page, subCategoryId, searchText){
         articleList(page, subCategoryId, searchText).then((response) => {
           this.articleData = response.data.data;
+          console.log(this.articleData)
           this.count = response.data.pagenation.count;
           this.page = response.data.pagenation.page;
           this.pageSize = response.data.pagenation.pageSize;
           this.pageCount = response.data.pagenation.pageCount;
           this.pageHandler();
         }).catch((err) => {
-          this.$toast.error(err)
+          this.articleData = [];
+          this.count = 0;
+          this.page = 1;
+          this.pageCount = 1;
+          this.pageSize = 0;
+          this.$toast.error(err);
         })
       },
       pageHandler(){
@@ -157,9 +167,17 @@
       }
     },
     mounted(){
+      self = this;
       this.$nextTick(() => {
         this.init()
       })
+    },
+    watch: {
+      'paramsText': (newVal, oldVal) => {
+        if(newVal != oldVal){
+          self.init();
+        }
+      }
     }
   }
 </script>

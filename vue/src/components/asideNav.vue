@@ -111,13 +111,12 @@
         }
       },
       categorySearchHandler(subCategoryId){
-        console.log(subCategoryId)
         if(subCategoryId == '-1'){
           this.$router.push({name: 'index'});
         }else{
           this.$router.push({path: 'articleListSearch', query: {subCategoryId: subCategoryId}});
         }
-        window.location.reload();
+        // window.location.reload();
       }
     }
   }

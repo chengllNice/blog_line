@@ -100,7 +100,7 @@
               subItem.push({
                 id: item._id,
                 subTitle: item.name,
-                imgSrc: '/static/images/html5.png'
+                imgSrc: '/upload/navImg/'+item.imgIcon
               });
               obj['subItem'] = subItem;
             }
@@ -113,12 +113,12 @@
       },
       categorySearchHandler(subCategoryId){
         this.$router.push({path: 'articleListSearch', query: {subCategoryId: subCategoryId}});
-        window.location.reload();
+        // window.location.reload();
       },
       titleSearchHandler(){
         let text = $('.search_input').val().trim();
         this.$router.push({path: 'articleListSearch', query: {searchText: text}});
-        window.location.reload();
+        // window.location.reload();
       },
       navDropDownHandler(index){
         $('.nav_box>li').eq(index).children('.nav_dropDown_hide').stop().slideDown();

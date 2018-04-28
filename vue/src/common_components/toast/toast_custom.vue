@@ -59,7 +59,7 @@
       align-items: center;
     }
     .dialog-tips{
-      position: fixed;
+      position: absolute;
       z-index: 2000;
     }
     .dialog-center {
