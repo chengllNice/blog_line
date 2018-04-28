@@ -266,30 +266,50 @@ const changeCommitStatus = (req, res, next) => {
   let id = req.body.articleId;
   let status = req.body.status;
   let commitId = req.body.commitId;
-  console.log(id, status, commitId)
-  Article.updateOne({
-    _id: id,
-    'commit.id': commitId
-  },{
-    $set: {
-      'commit.$.status': status
-    }
-  }).then((result) => {
-    console.log(result)
-    if(result.n){
-      res.json({
-        status: 0,
-        message: '修改成功',
-        data: ''
-      })
-    }else{
-      res.json({
-        status: 1,
-        message: '修改失败',
-        data: ''
-      })
-    }
-  })
+  if(commitId != '全部'){
+    Article.updateOne({
+      _id: id,
+      'commit.id': commitId
+    },{
+      $set: {
+        'commit.$.status': status
+      }
+    }).then((result) => {
+      if(result.n){
+        res.json({
+          status: 0,
+          message: '修改成功',
+          data: ''
+        })
+      }else{
+        res.json({
+          status: 1,
+          message: '修改失败',
+          data: ''
+        })
+      }
+    })
+  }else{
+    Article.findOne({
+      _id: id
+    }).then((result) => {
+      let commitDoc = result.commit;
+      commitDoc.forEach((item, index) => {
+        item.status = '已读'
+      });
+      Article.updateOne({
+        _id: id
+      },{
+        commit: commitDoc
+      }).then((result01) => {
+        res.json({
+          status: 0,
+          message: '修改成功',
+          data: ''
+        })
+      });
+    })
+  }
 };
 
 module.exports = {

@@ -99,7 +99,6 @@ const getCustomModuleList = (req, res, next) => {
 // 修改模块展示状态
 const changeModuleStatus = (req, res, next) => {
   let id = req.body.id;
-  console.log(id)
   CustomModule.findOne({
     _id: id
   }).then((result01) => {
