@@ -164,6 +164,9 @@
 </script>
 
 <style lang="scss" scoped>
+  .add-article{
+    padding-bottom: 10px;
+  }
   .v-note-wrapper {
     z-index: 800;
   }

@@ -9,8 +9,9 @@ import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 import VueSocketio from 'vue-socket.io'
 import socketio from 'socket.io-client'
+import {socketUrl} from "../../vue/src/config/config";
 
-Vue.use(VueSocketio, socketio('http://localhost:3000'));
+Vue.use(VueSocketio, socketio(socketUrl));
 
 Vue.use(iView);
 Vue.prototype.dateFormat = (value) => {
@@ -38,6 +39,10 @@ Vue.prototype.dateFormat = (value) => {
   }
   let nowDate = `${year}-${mouth}-${day}  ${H}:${M}:${S}`
   return nowDate;
+};
+
+Vue.prototype.goBack = () => {
+  router.go(-1);
 };
 
 Vue.config.productionTip = false

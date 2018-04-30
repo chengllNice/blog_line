@@ -72,6 +72,6 @@
 
 <style lang="scss" scoped>
   .add-category{
-
+    padding-bottom: 10px;
   }
 </style>

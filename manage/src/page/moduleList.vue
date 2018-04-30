@@ -226,5 +226,7 @@
 </script>
 
 <style scoped>
-
+  .module-list{
+    padding-bottom: 20px;
+  }
 </style>

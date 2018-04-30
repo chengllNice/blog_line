@@ -2,7 +2,13 @@
   <div class="article-commit">
     <div class="bread_box">
       <Breadcrumb>
+        <BreadcrumbItem>
+          <a href="javascript:;" @click="goBack">
+            <Icon type="arrow-return-left"></Icon> 返回
+          </a>
+        </BreadcrumbItem>
         <BreadcrumbItem to="/manage">首页</BreadcrumbItem>
+        <BreadcrumbItem to="/articleList">博文列表</BreadcrumbItem>
         <BreadcrumbItem>博文评论</BreadcrumbItem>
       </Breadcrumb>
     </div>
@@ -40,8 +46,8 @@
             </div>
             <div class="commit_content">{{item.content}}</div>
           </div>
-          <div class="opare">
-            <span @click="deleteHandler(item.id)" v-if="userInfo._id === articleData.user">
+          <div class="opare" @click="deleteHandler(item.id)">
+            <span v-if="userInfo._id === articleData.user">
               <Icon type="trash-a"></Icon>
             </span>
           </div>
@@ -260,6 +266,10 @@
           }
         }
       }
+    }
+
+    .page_box{
+      padding: 20px 0;
     }
   }
 

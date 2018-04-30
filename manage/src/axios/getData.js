@@ -104,6 +104,20 @@ export const editPsd = (userId, password) => {
     })
   })
 };
+
+//manage，canvas统计数据
+export const articleAgr = () => {
+  return new Promise((resolve, reject) => {
+    axios.get(BASE_URL + '/articleAgr').then((result) => {
+      if(!result.data.status){
+        resolve(result)
+      }else{
+        reject(result)
+      }
+    })
+  })
+};
+
 // 添加目录
 export const getUserId = (searchText) => {
   return new Promise((resolve, reject) => {
@@ -314,6 +328,21 @@ export const changeCommitStatus = (articleId, commitId, status) => {
       articleId: articleId,
       commitId: commitId,
       status: status
+    }).then((result) => {
+      if(!result.data.status){
+        resolve(result)
+      }else{
+        reject(result.data.message)
+      }
+    })
+  })
+};
+//修改博文置顶状态
+export const articleIsTop = (articleId, isTop) => {
+  return new Promise((resolve, reject) => {
+    axios.post(BASE_URL + '/articleIsTop', {
+      articleId: articleId,
+      isTop: isTop
     }).then((result) => {
       if(!result.data.status){
         resolve(result)

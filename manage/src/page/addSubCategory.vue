@@ -89,5 +89,7 @@
 </script>
 
 <style scoped>
-
+  .add-sub-category{
+    padding-bottom: 10px;
+  }
 </style>

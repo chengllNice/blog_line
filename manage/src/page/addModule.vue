@@ -149,6 +149,7 @@
 
 <style lang="scss" scoped>
   .add-module{
+    padding-bottom: 20px;
     .module_title{
       padding-bottom: 10px;
       margin-bottom: 20px;

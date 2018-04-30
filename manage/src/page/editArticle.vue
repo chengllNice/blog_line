@@ -2,6 +2,11 @@
     <div class="edit-article">
       <div class="bread_box">
         <Breadcrumb>
+          <BreadcrumbItem>
+            <a href="javascript:;" @click="goBack">
+              <Icon type="arrow-return-left"></Icon> 返回
+            </a>
+          </BreadcrumbItem>
           <BreadcrumbItem to="/manage">首页</BreadcrumbItem>
           <BreadcrumbItem>编辑博文</BreadcrumbItem>
         </Breadcrumb>

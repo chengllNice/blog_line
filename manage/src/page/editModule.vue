@@ -2,6 +2,11 @@
     <div class="add-module">
       <div class="bread_box">
         <Breadcrumb>
+          <BreadcrumbItem>
+            <a href="javascript:;" @click="goBack">
+              <Icon type="arrow-return-left"></Icon> 返回
+            </a>
+          </BreadcrumbItem>
           <BreadcrumbItem to="/manage">首页</BreadcrumbItem>
           <BreadcrumbItem>编辑模块</BreadcrumbItem>
         </Breadcrumb>
@@ -167,6 +172,7 @@
 
 <style lang="scss" scoped>
   .add-module{
+    padding-bottom: 20px;
     .module_title{
       padding-bottom: 10px;
       margin-bottom: 20px;

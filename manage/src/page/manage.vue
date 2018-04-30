@@ -7,9 +7,9 @@
 </template>
 
 <script>
-  import { mavonEditor } from 'mavon-editor'
-  import 'mavon-editor/dist/css/index.css'
   import echarts from 'echarts'
+  import { articleAgr} from "../axios/getData";
+
   export default {
     name: "manage",
     data(){
@@ -17,21 +17,32 @@
         content: ''
       }
     },
-    components: {
-      mavonEditor
-    },
     methods: {
+
       init(){
+        articleAgr().then((response) => {
+          let date = response.data.data.date;
+          let commit = response.data.data.commit;
+          let likes = response.data.data.likes;
+          this.canvasHandler(date,commit,likes);
+        }).catch((err) => {
+          this.$Message.error(err.data.message)
+        })
+      },
+
+      canvasHandler(date,commit,likes){
         let echartsCommit = echarts.init(document.getElementById('echartsCommit'));
+        let colors = ['#5793f3','#65cea7'];
         echartsCommit.setOption({
+          color: colors,
           title: {
-            text: '折线图堆叠'
+            text: '数据统计'
           },
           tooltip: {
-            trigger: 'axis'
+            trigger: 'axis',
           },
           legend: {
-            data:['评论量', '点赞量', '浏览量']
+            data:['评论量', '点赞量']
           },
           grid: {
             left: '3%',
@@ -47,7 +58,7 @@
           xAxis: {
             type: 'category',
             boundaryGap: false,
-            data: ['周一','周二','周三','周四','周五','周六','周日']
+            data: date
           },
           yAxis: {
             type: 'value'
@@ -56,20 +67,24 @@
             {
               name:'评论量',
               type:'line',
-              stack: '总量',
-              data:[120, 132, 101, 134, 90, 230, 210]
+              smooth: true,
+              areaStyle: {
+                normal: {
+
+                }
+              },
+              data:commit
             },
             {
               name:'点赞量',
               type:'line',
-              stack: '总量',
-              data:[220, 182, 191, 234, 290, 330, 310]
-            },
-            {
-              name:'浏览量',
-              type:'line',
-              stack: '总量',
-              data:[150, 232, 201, 154, 190, 330, 410]
+              smooth: true,
+              areaStyle: {
+                normal: {
+
+                }
+              },
+              data:likes
             }
           ]
         });
@@ -84,7 +99,7 @@
 <style lang="scss" scoped>
   .manage{
     width: 100%;
-    padding: 10px;
+    padding: 20px 0;
     .echartsCommit_box{
       width: 800px;
       height: 500px;

@@ -47,7 +47,7 @@
 </template>
 
 <script>
-  import { articleList, getsubcategoryId, deleteArticle, getUserId, changeArticleStatus } from "../axios/getData";
+  import { articleList, getsubcategoryId, deleteArticle, getUserId, changeArticleStatus, articleIsTop } from "../axios/getData";
   import { mapState } from 'vuex'
 
   export default {
@@ -119,15 +119,15 @@
             key: 'views',
             width: 80
           },
-          {
+          /*{
             title: '点赞数',
             key: 'likes',
             width: 80
-          },
+          },*/
           {
             title: '评论数',
             key: 'commit',
-            width: 80,
+            width: 90,
             render: (h, params) => {
               let commitArr = params.row.commit;
               let noNum = 0;
@@ -188,6 +188,26 @@
                     }
                   }
                 })
+              ])
+            }
+          },
+          {
+            title: '置顶',
+            key: 'isTop',
+            width: 80,
+            render: (h, params) => {
+              return h('div', [
+                h('Button', {
+                  props: {
+                    size: 'small',
+                    type: params.row.isTop ? 'warning':'primary'
+                  },
+                  on: {
+                    click: () => {
+                      this.articleIsTopHandler(params.row.isTop,params.row._id);
+                    }
+                  }
+                }, params.row.isTop ? '置顶' : '正常')
               ])
             }
           },
@@ -335,6 +355,24 @@
             this.$Message.success('修改状态成功');
             this.init();
           }
+        }).catch((err) => {
+          this.$Message.error(err)
+        })
+      },
+      articleIsTopHandler(isTop,id){
+        let top = '';
+        if(!isTop){
+          top = 1
+        }else{
+          top = 0
+        }
+        articleIsTop(id, top).then((response) => {
+          if(!top){
+            this.$Message.success('取消置顶成功')
+          }else{
+            this.$Message.success('置顶成功')
+          }
+          this.init();
         }).catch((err) => {
           this.$Message.error(err)
         })
