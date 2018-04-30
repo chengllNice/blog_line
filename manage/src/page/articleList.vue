@@ -119,11 +119,14 @@
             key: 'views',
             width: 80
           },
-          /*{
+          {
             title: '点赞数',
             key: 'likes',
-            width: 80
-          },*/
+            width: 80,
+            render: (h, params) => {
+              return h('span',params.row.likes.length)
+            }
+          },
           {
             title: '评论数',
             key: 'commit',
