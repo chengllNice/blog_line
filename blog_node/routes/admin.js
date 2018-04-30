@@ -41,7 +41,8 @@ router.get('/articleList', (req, res, next) => {
     if (result.length) {
       count = result.length;
       pageCount = Math.ceil(count / pageSize);
-      Article.find(selector).populate(['user', 'subcategory']).skip(skip).limit(limit).sort({updateDate: -1}).then((result01) => {
+      Article.find(selector,{content: 0}).populate(['user', 'subcategory']).skip(skip).limit(limit).sort({isTop: -1,updateDate: -1}).then((result01) => {
+
         res.json({
           status: 0,
           message: '查询成功',
@@ -171,6 +172,65 @@ router.post('/commitText', (req, res, next) => {
   });
 });
 
+// 点赞
+router.post('/articleLikes', (req, res, next) => {
+  // 获取用户IP
+  let ip = req.headers['x-forwarded-for'] ||
+    req.ip ||
+    req.connection.remoteAddress ||
+    req.socket.remoteAddress ||
+    req.connection.socket.remoteAddress || '';
+  if(ip.split(',').length>0){
+    ip = ip.split(',')[0];
+    ip = ip.split(':').slice(-1)[0];
+  }
+
+  let articleId = req.body.articleId;
+
+  Article.findOne({
+    _id: articleId
+  }).then((result) => {
+    let likes = result.likes;//点赞列表
+    let isLikes = false;
+    //判断该ip用户是否一点赞,isLikes为true表示已点赞
+    likes.forEach((content,index) => {
+      if(content.name == ip){
+        isLikes = true;
+      }
+    });
+
+    if(isLikes){
+      res.json({
+        status: 2,
+        message: '您已点赞，感谢'
+      })
+    }else{
+      Article.updateOne({
+        _id: articleId
+      },{
+        $push: {
+          likes: {
+            name: ip,
+            createDate: new Date()
+          }
+        }
+      }).then((result) => {
+        if(result.n){
+          res.json({
+            status: 0,
+            message: '点赞成功'
+          })
+        }else{
+          res.json({
+            status: 1,
+            message: '点赞失败'
+          })
+        }
+      })
+    }
+  });
+});
+
 // 获取模块列表
 router.get('/getCustomModuleList', (req, res, next) => {
   CustomModule.find({}).sort({sortIndex: -1}).then((result) => {
@@ -203,5 +263,7 @@ router.get('/getBannerImage', (req, res, next) => {
     }
   })
 });
+
+
 
 module.exports = router;

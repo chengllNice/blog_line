@@ -10,6 +10,84 @@ const Article = require('../../schema/article');
 const MarkdownIt = require('markdown-it');
 const md = new MarkdownIt();
 
+
+const dateTime = (day) => {
+  let nowDate = new Date();
+  nowDate.setDate(nowDate.getDate()-day);//前day天的日期
+  let dateArr = [];
+  for(let i=0; i<= day; i++){
+    dateArr.push(nowDate.getFullYear()+'/'+(nowDate.getMonth()+1)+'/'+nowDate.getDate());
+    nowDate.setDate(nowDate.getDate()+1);
+  }
+
+  return dateArr;
+};
+
+//查询博文近一周的评论数和点赞数
+const articleAgr = (req, res, next) => {
+
+  let dateArr = dateTime(7);
+  let sevenDate = new Date(dateArr[0]);
+  Article.find({
+    $or: [
+      {
+        'commit.createdDate': {
+          $gt: sevenDate
+        }
+      },
+      {
+        'likes.createDate': {
+          $gt: sevenDate
+        }
+      }
+    ]
+
+  }).then((result) => {
+    let obj = {};
+    dateArr.forEach((dateItem,dateIndex) => {
+      let preDate = new Date(dateArr[dateIndex]);
+      let nextDate = new Date(dateArr[dateIndex+1]);
+      let commitnum = 0;//计数commit
+      let likesnum = 0;//计数likes
+      result.forEach((content, index) => {
+        let commitArr = content.commit;
+        let likesArr = content.likes;
+        commitArr.forEach((commitItem, commitIndex) => {
+          if((commitItem.createdDate>=preDate) && (commitItem.createdDate<nextDate)){
+            commitnum++;
+          }
+        });
+
+        likesArr.forEach((likesItem, likesIndex) => {
+          if((likesItem.createDate>=preDate) && (likesItem.createDate<nextDate)){
+            likesnum++;
+          }
+        });
+      });
+      obj[dateArr[dateIndex]] = {
+        'commit': commitnum,
+        'likes': likesnum
+      }
+    });
+
+    let commit = [];
+    let likes = [];
+    Object.keys(obj).forEach((key) => {
+      commit.push(obj[key].commit);
+      likes.push(obj[key].likes);
+    });
+
+    res.json({
+      status: 0,
+      message: '',
+      data: {
+        commit: commit.slice(0,commit.length-1),
+        likes: likes.slice(0,likes.length-1),
+        date: dateArr.slice(0,likes.length-1)
+      }
+    })
+  })
+};
 // 添加博文
 const addArticle = (req, res, next) => {
   let title = req.body.title;
@@ -28,7 +106,8 @@ const addArticle = (req, res, next) => {
       content: content,
       subcategory: subcategory,
       user: user,
-      markType: markType
+      markType: markType,
+      likes: []
     }).save(function (err) {
       if (err) {
         res.json({
@@ -95,7 +174,7 @@ const articleList = (req, res, next) => {
     if (result.length) {
       count = result.length;
       pageCount = Math.ceil(count / pageSize);
-      Article.find(selector).populate(['user', 'subcategory']).skip(skip).limit(limit).sort({updateDate: -1}).then((result01) => {
+      Article.find(selector,{content: 0,description: 0,tags: 0,markType: 0}).populate(['user', 'subcategory']).skip(skip).limit(limit).sort({updateDate: -1}).then((result01) => {
         res.json({
           status: 0,
           message: '查询成功',
@@ -311,6 +390,25 @@ const changeCommitStatus = (req, res, next) => {
     })
   }
 };
+//博文置顶操作
+const articleIsTop = (req, res, next) => {
+  let top = req.body.isTop;
+  let id = req.body.articleId;
+
+  Article.updateOne({
+    _id: id
+  },{
+    $set: {
+      isTop: top
+    }
+  }).then((result) => {
+    res.json({
+      status: 0,
+      message: '修改置顶',
+      data: ''
+    })
+  })
+};
 
 module.exports = {
   addArticle,
@@ -321,5 +419,7 @@ module.exports = {
   articleDetail,
   deleteCommit,
   changeArticleStatus,
-  changeCommitStatus
+  changeCommitStatus,
+  articleIsTop,
+  articleAgr
 };

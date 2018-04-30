@@ -9,6 +9,10 @@ const articleSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'subcategory'
   },
+  isTop: {
+    type: Number,
+    default: 0
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: 'user'
@@ -30,8 +34,14 @@ const articleSchema = new Schema({
     default: []
   },
   likes: {//点赞量
-    type: Number,
-    default: 0
+    type: Array,
+    default: {
+      name: String,
+      createDate: {
+        type: Date,
+        default: Date.now
+      }
+    }
   },
   views: {//浏览量
     type: Number,
