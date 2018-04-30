@@ -9,7 +9,7 @@
               <router-link :to="{name: 'index'}">首页</router-link>
             </li>
             <li v-for="(navItem,index) in navData.categoryData" :key="index" @mouseover="navDropDownHandler(index+1)" @mouseout="navDropUpHandler(index+1)" v-if="navItem.name">
-              <a href="#">{{navItem.name}}</a>
+              <a href="javascript:;">{{navItem.name}}</a>
               <div class="nav_dropDown_hide" v-if="navItem.subItem">
                 <div class="item">
                   <div class="panel">
@@ -39,7 +39,7 @@
         <div class="">
           <div class="search_wrap">
             <input type="text" class="form-control search_input" @keyup.enter="titleSearchHandler" placeholder="请输入博文标题搜索...">
-            <div class="search_icon" @click="titleSearchHandler"><button class="btn btn-default"><i class="fa fa-search"></i></button></div>
+            <div class="search_icon" @click="titleSearchHandler"><button class="btn btn-default btn_search"><i class="fa fa-search"></i></button></div>
           </div>
         </div>
       </div>
@@ -117,6 +117,11 @@
       },
       titleSearchHandler(){
         let text = $('.search_input').val().trim();
+        if(!text){
+          this.$toast.warning('请输入搜索内容');
+          return;
+        }
+        $('.search_input').val('');
         this.$router.push({path: 'articleListSearch', query: {searchText: text}});
         // window.location.reload();
       },
@@ -224,15 +229,23 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        padding: 13px 15px;
+        padding: 0 15px;
 
         .search_input{
-          border-radius: 4px 0 0 4px;
+          border: none;
+          border-radius: 1px 0 0 1px;
+          font-size: 12px;
+          width: 220px;
         }
         .search_icon button{
-          border-radius: 0 4px 4px 0;
           color: #fff;
-          background: #ddd;
+          border-radius: 0 1px 1px 0;
+          background: #46535f;
+          border: none;
+          height: 34px;
+          &:hover{
+            opacity: 0.9;
+          }
         }
       }
     }

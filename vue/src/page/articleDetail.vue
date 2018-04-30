@@ -4,31 +4,43 @@
         <div class="article_main">
           <div class="article_left">
             <div class="title">
-              <h2>{{articleData.title}}</h2>
-              <div class="article_info">
-                <span class="mark_custom " :class="[articleData.markType === '转载' ? 'mark_reprint': 'mark_original']">{{articleData.markType}}</span>
-                <div class="tag_box">
-                  <span class="tag tag_success" v-for="(item, index) in articleData.tags" :key="index">{{item}}</span>
+              <div class="title_left">
+                <h2>{{articleData.title}}</h2>
+
+                <div class="article_info">
+                  <span class="mark_custom " :class="[articleData.markType === '转载' ? 'mark_reprint': 'mark_original']">{{articleData.markType}}</span>
+                  <div class="tag_box">
+                    <span class="tag tag_success" v-for="(item, index) in articleData.tags" :key="index">{{item}}</span>
+                  </div>
+                  <div class="item">
+                    <span>作者：</span>
+                    <span class="edit_time">{{articleUserName}}</span>
+                  </div>
+                  <div class="item">
+                    <span>分类：</span>
+                    <span class="edit_time">{{articleCateName}}</span>
+                  </div>
+                  <div class="item">
+                    <span>更新时间：</span>
+                    <span class="edit_time">{{articleData.updateDate | dateFormat}}</span>
+                  </div>
+                  <div class="item">
+                    <span>阅读量：</span>
+                    <span class="edit_time">{{articleData.views}}</span>
+                  </div>
                 </div>
-                <div class="item">
-                  <span>作者：</span>
-                  <span class="edit_time">{{articleUserName}}</span>
-                </div>
-                <div class="item">
-                  <span>分类：</span>
-                  <span class="edit_time">{{articleCateName}}</span>
-                </div>
-                <div class="item">
-                  <span>更新时间：</span>
-                  <span class="edit_time">{{articleData.updateDate | dateFormat}}</span>
-                </div>
-                <div class="item">
-                  <span>阅读量：</span>
-                  <span class="edit_time">{{articleData.views}}</span>
-                </div>
+              </div>
+
+              <div class="title_right">
+                <likes-btn tooltip="感谢点赞" :likes-num="articleData.likes"></likes-btn>
               </div>
             </div>
             <div class="main_content" v-html="articleContent"></div>
+
+            <div class="likes_box">
+              <likes-btn class="" tooltip="感谢点赞" :likes-num="articleData.likes"></likes-btn>
+            </div>
+
             <div class="commit_box">
               <h4>评论</h4>
               <div class="commit_form">
@@ -66,7 +78,9 @@
 <script>
   import { articleDetail, submitCommit, getCustomModuleList } from '../axios/getData'
   import CustomModule from '@/components/customModule'
+  import likesBtn from '@/components/likesBtn'
   import io from 'socket.io-client'
+  import { socketUrl } from "../config/config";
 
 
   export default {
@@ -82,7 +96,8 @@
       }
     },
     components: {
-      CustomModule
+      CustomModule,
+      likesBtn
     },
     computed: {
       articleId(){
@@ -105,8 +120,6 @@
     },
     methods: {
       init(){
-        this.socket = io('http://localhost:3000');
-
         let id = this.articleId;
         articleDetail(id).then((response) => {
           this.articleTitle = response.data.data.title;
@@ -136,6 +149,7 @@
           if(!response.data.status){
             this.init();
             let articleTitle = this.articleTitle;
+            this.socket = io(socketUrl);
             this.socket.emit('commitwillsubmit', {msg: {id: id, title: articleTitle, text: commitText}});
             $('#commitContent').val('');
           }else{
@@ -170,11 +184,21 @@
           padding: 20px 0 10px 0;
           margin-bottom: 20px;
           border-bottom: 1px solid #ccc;
+          display: flex;
+          justify-content: space-between;
+          .title_left{
+            flex: 1;
+          }
+          .title_right{
+            max-width: 80px;
+            margin-left: 20px;
+          }
           h2{
             font-size: 24px;
             color: #000;
             padding-bottom: 20px;
           }
+
           .article_info{
             display: flex;
             flex-direction: row;
@@ -199,6 +223,10 @@
 
         .main_content{
           min-height: 400px;
+        }
+
+        .likes_box{
+          text-align: center;
         }
 
         .commit_box{

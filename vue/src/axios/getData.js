@@ -74,6 +74,20 @@ export const submitCommit = (id, commitText) => {
     })
   })
 };
+// 点赞
+export const articleLikes = (id) => {
+  return new Promise((resolve, reject) => {
+    axios.post(BASE_URL + '/articleLikes',{
+      articleId: id
+    }).then((res) => {
+      if(!res.data.status){
+        resolve(res)
+      }else{
+        reject(res)
+      }
+    })
+  })
+};
 
 // 获取模块列表
 export const getCustomModuleList = () => {

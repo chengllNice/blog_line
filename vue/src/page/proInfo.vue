@@ -24,7 +24,7 @@
               </a>
               <a href="http://wpa.qq.com/msgrd?v=3&uin=919903021&site=qq&menu=yes" target="_blank"><img src="/static/images/qq.png" alt=""></a>
               <a href="https://weibo.com/u/6104243558/home?wvr=5" target="_blank"><img src="/static/images/sina.png" alt=""></a>
-              <a href="https://github.com/chengllLovezy" target="_blank"><img src="/static/images/github1.png" alt=""></a>
+              <a href="https://github.com/chengllNice" target="_blank"><img src="/static/images/github1.png" alt=""></a>
             </div>
           </div>
         </div>

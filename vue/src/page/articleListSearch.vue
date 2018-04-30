@@ -2,6 +2,10 @@
     <div class="article-list-search">
       <div class="index_wrap">
         <div class="index_left">
+          <div class="search_tip">
+            {{this.paramsText}}
+          </div>
+
           <div class="content">
             <div class="content_item" v-for="(articleItem,index) in articleData" :key="index" @click="goArticleDetailHandler(articleItem._id)">
               <div class="panel">
@@ -46,13 +50,13 @@
                 <nav aria-label="Page navigation">
                   <ul class="pagination">
                     <li @click="prePage" :class="{'disabled': page == '1'}">
-                      <a aria-label="Previous">
+                      <a href="javascript:;" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                       </a>
                     </li>
-                    <li v-for="(item,index) in pageArr" :key="index" :class="{'active': page == item}" @click="goPage(item)"><a>{{item}}</a></li>
+                    <li v-for="(item,index) in pageArr" :key="index" :class="{'active': page == item}" @click="goPage(item)"><a href="javascript:;">{{item}}</a></li>
                     <li @click="nextPage" :class="{'disabled': page == pageCount}">
-                      <a aria-label="Next">
+                      <a href="javascript:;" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                       </a>
                     </li>
@@ -118,7 +122,6 @@
       searchArticleHandler(page, subCategoryId, searchText){
         articleList(page, subCategoryId, searchText).then((response) => {
           this.articleData = response.data.data;
-          console.log(this.articleData)
           this.count = response.data.pagenation.count;
           this.page = response.data.pagenation.page;
           this.pageSize = response.data.pagenation.pageSize;
@@ -193,6 +196,14 @@
     }
     .index_left{
       flex: 1;
+      .search_tip{
+        border: 3px solid #1abc9c;
+        padding: 20px;
+        font-size: 21px;
+        font-weight: bold;
+        color: #1abc9c;
+        margin-bottom: 20px;
+      }
       .content{
         .content_item{
           cursor: pointer;
@@ -202,12 +213,12 @@
           -o-transition: all 0.3s;
           transition: all 0.3s;
           &:hover{
-            -webkit-transform: translateY(-1px);
-            -moz-transform: translateY(-1px);
-            -ms-transform: translateY(-1px);
-            -o-transform: translateY(-1px);
-            transform: translateY(-1px);
-            box-shadow: 0px 1px 2px #ccc;
+            -webkit-transform: translateY(-3px);
+            -moz-transform: translateY(-3px);
+            -ms-transform: translateY(-3px);
+            -o-transform: translateY(-3px);
+            transform: translateY(-3px);
+            box-shadow: 0px 2px 3px #ccc;
           }
           h4{
             color: #353F4F;

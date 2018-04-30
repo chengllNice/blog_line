@@ -25,6 +25,9 @@ li{
   -webkit-box-shadow: 0px 0px 2px #ccc!important;
   -moz-box-shadow: 0px 0px 2px #ccc!important;
   box-shadow: 0px 0px 2px #ccc!important;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
 }
 
 .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover{
@@ -41,5 +44,17 @@ li{
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+}
+
+@media screen and (max-width: 768px) {
+  .panel-body{
+    padding: 5px!important;
+  }
+  .index_left .content .content_item h4{
+    padding: 8px!important;
+  }
+  .index_left .content .content_item .des{
+    padding-bottom: 0px!important;
+  }
 }
 

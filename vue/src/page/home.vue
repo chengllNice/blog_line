@@ -5,12 +5,12 @@
     </div>
     <div class="main">
       <my-header @asideToggle="asideToggleHandler"></my-header>
-      <div class="container_main">
-        <div class="view_main">
-          <router-view></router-view>
+        <div class="container_main" :class="{'overScroll': isScroll}">
+          <div class="view_main">
+            <router-view></router-view>
+          </div>
+          <my-footer></my-footer>
         </div>
-        <my-footer></my-footer>
-      </div>
     </div>
   </div>
 </template>
@@ -24,6 +24,11 @@
     data(){
       return {
         toggleAside: true
+      }
+    },
+    computed: {
+      isScroll(){
+        return (this.IsPC() && this.isIE())
       }
     },
     components: {
@@ -63,21 +68,28 @@
           cursorborder: '0px',//滚动条边框
           background: 'rgb(66, 79, 99)' //滚动条轨道的背景
         };
-        if(!this.IsPC()){
-          option = {
-            cursorcolor: '#1abc9c',//改变滚动条颜色
-            cursorwidth: '2px',//滚动条宽度
-            cursorborder: '0px',//滚动条边框
-            background: 'rgb(66, 79, 99)' //滚动条轨道的背景
-          };
-        }
         $('.container_main').niceScroll(option);
+      },
+      isIE(){
+        let isIEOff = false;
+
+        if (!!window.ActiveXObject || "ActiveXObject" in window){
+          isIEOff = true;
+        }
+        if(navigator.userAgent.indexOf("Edge") > -1){
+          isIEOff = true;
+        }
+        return isIEOff;
       }
     },
     mounted(){
-      this.$nextTick(() => {
-        this.getNiceScroll()
-      });
+      if(!this.isIE() && this.IsPC()){
+        this.$nextTick(() => {
+          setTimeout(()=>{
+            this.getNiceScroll()
+          },1000)
+        });
+      }
     },
     watch: {
       $route(){
@@ -108,6 +120,9 @@
       .container_main{
         height: 100%;
         overflow: scroll;
+      }
+      .overScroll{
+        overflow: auto;
       }
       .view_main{
         padding: 20px 50px;

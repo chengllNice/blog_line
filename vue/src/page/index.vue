@@ -7,7 +7,10 @@
             <div class="content_item" v-for="(articleItem,index) in articleData" :key="index" @click="goArticleDetailHandler(articleItem._id)">
               <div class="panel">
                 <div class="panel-body">
-                  <h4>{{articleItem.title}}</h4>
+                  <h4>
+                    {{articleItem.title}}
+                      <span class="is_top" v-if="articleItem.isTop">置顶</span>
+                  </h4>
                   <div class="article_info">
                     <div class="item hidden-xs">
                       <span>作者：</span>
@@ -47,13 +50,13 @@
                 <nav aria-label="Page navigation">
                   <ul class="pagination">
                     <li @click="prePage" :class="{'disabled': page == '1'}">
-                      <a aria-label="Previous">
+                      <a href="javascript:;" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                       </a>
                     </li>
-                    <li v-for="(item,index) in pageArr" :key="index" :class="{'active': page == item}" @click="goPage(item)"><a>{{item}}</a></li>
+                    <li v-for="(item,index) in pageArr" :key="index" :class="{'active': page == item}" @click="goPage(item)"><a href="javascript:;">{{item}}</a></li>
                     <li @click="nextPage" :class="{'disabled': page == pageCount}">
-                      <a aria-label="Next">
+                      <a href="javascript:;" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                       </a>
                     </li>
@@ -79,6 +82,8 @@
   import sliderBoot from './sliderBoot'
   import CustomModule from '@/components/customModule'
   import { articleList, getCustomModuleList, getBannerImage } from '../axios/getData'
+
+  let self;
   export default {
     name: "index",
     data(){
@@ -94,7 +99,9 @@
       }
     },
     computed: {
-
+      currentPage(){
+        return this.$route.query.page || '';
+      }
     },
     components: {
       proInfo,
@@ -167,9 +174,18 @@
       }
     },
     mounted(){
+      self = this;
       this.$nextTick(() => {
         this.init()
       })
+    },
+    watch: {
+      'currentPage': (newVal,oldVal) => {
+        console.log(newVal,oldVal)
+        if(!newVal){
+          self.init();
+        }
+      }
     }
   }
 </script>
@@ -193,12 +209,12 @@
           -o-transition: all 0.3s;
           transition: all 0.3s;
           &:hover{
-            -webkit-transform: translateY(-1px);
-            -moz-transform: translateY(-1px);
-            -ms-transform: translateY(-1px);
-            -o-transform: translateY(-1px);
-            transform: translateY(-1px);
-            box-shadow: 0px 1px 2px #ccc;
+            -webkit-transform: translateY(-3px);
+            -moz-transform: translateY(-3px);
+            -ms-transform: translateY(-3px);
+            -o-transform: translateY(-3px);
+            transform: translateY(-3px);
+            box-shadow: 0px 2px 3px #ccc;
           }
           h4{
             color: #353F4F;
@@ -206,6 +222,19 @@
             font-size: 14px;
             padding: 15px;
             border-bottom: 1px dotted rgba(0, 0, 0, 0.2);
+          }
+          .is_top{
+            display: inline-block;
+            background: #ffffff;
+            color: #f90!important;
+            border: 1px solid #f90!important;
+            height: 18px;
+            line-height: 16px;
+            font-size: 12px;
+            font-weight: 400;
+            border-radius: 2px;
+            padding: 0 5px;
+            margin-left: 10px;
           }
           .article_info{
             display: flex;
