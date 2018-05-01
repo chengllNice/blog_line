@@ -18,7 +18,7 @@ Vue.prototype.dateFormat = (value) => {
   let date = new Date(value);
   let year = date.getFullYear();
   let mouth = date.getMonth()+1;
-  let day = date.getDay();
+  let day = date.getDate();
   let H = date.getHours();
   let M = date.getMinutes();
   let S = date.getSeconds();
