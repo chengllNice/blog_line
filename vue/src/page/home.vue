@@ -19,6 +19,7 @@
   import myHeader from '@/components/MyHeader'
   import asideNav from '@/components/asideNav'
   import myFooter from '@/components/MyFooter'
+  import { isIE, isPC } from '../config/utils'
   export default {
     name: "home",
     data(){
@@ -28,7 +29,7 @@
     },
     computed: {
       isScroll(){
-        return (this.IsPC() && this.isIE())
+        return (isPC() && isIE());
       }
     },
     components: {
@@ -47,20 +48,6 @@
           $('.main').css({'transform': 'translateX(240px)'})
         }
       },
-      IsPC() {
-        let userAgentInfo = navigator.userAgent;
-        let Agents = ["Android", "iPhone",
-          "SymbianOS", "Windows Phone",
-          "iPad", "iPod"];
-        let flag = true;
-        for (let v = 0; v < Agents.length; v++) {
-          if (userAgentInfo.indexOf(Agents[v]) > 0) {
-            flag = false;
-            break;
-          }
-        }
-        return flag;
-      },
       getNiceScroll(){
         let option = {
           cursorcolor: '#1abc9c',//改变滚动条颜色
@@ -70,20 +57,9 @@
         };
         $('.container_main').niceScroll(option);
       },
-      isIE(){
-        let isIEOff = false;
-
-        if (!!window.ActiveXObject || "ActiveXObject" in window){
-          isIEOff = true;
-        }
-        if(navigator.userAgent.indexOf("Edge") > -1){
-          isIEOff = true;
-        }
-        return isIEOff;
-      }
     },
     mounted(){
-      if(!this.isIE() && this.IsPC()){
+      if(!isIE() && isPC()){
         this.$nextTick(() => {
           setTimeout(()=>{
             this.getNiceScroll()
@@ -93,12 +69,14 @@
     },
     watch: {
       $route(){
-        this.$nextTick(() => {
-          setTimeout(() => {
-            $('.container_main').getNiceScroll().resize();
-            $(".container_main").getNiceScroll(0).doScrollTop(0);
-          },500);
-        });
+        if(!isIE() && isPC()){
+          this.$nextTick(() => {
+            setTimeout(() => {
+              $('.container_main').getNiceScroll().resize();
+              $(".container_main").getNiceScroll(0).doScrollTop(0);
+            },1000);
+          });
+        }
       }
     }
   }

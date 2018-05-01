@@ -94,7 +94,7 @@
   pre{
     background: #eee url('/static/images/blueprint.png');
     max-height: 450px;
-    overflow: auto;
+    overflow: auto!important;
     code{
       display: inline-block;
       margin: 5px 0;

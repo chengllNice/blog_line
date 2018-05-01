@@ -81,7 +81,7 @@
   import likesBtn from '@/components/likesBtn'
   import io from 'socket.io-client'
   import { socketUrl } from "../config/config";
-
+  import { isIE, isPC } from '../config/utils'
 
   export default {
     name: "article-detail",
@@ -158,15 +158,23 @@
         }).catch((err) => {
           this.$toast.error(err)
         })
+      },
+      isNiceScroll(){
+        if(!isIE() && isPC()) {
+          this.$nextTick(() => {
+            $('.main_content pre').niceScroll();
+          });
+        }else{
+          $('.main_content pre').css({'overflow': 'auto!important'})
+        }
       }
     },
     mounted(){
       this.init();
+      //this.isNiceScroll();
     },
     updated(){
-      this.$nextTick(() => {
-        $('.main_content pre').niceScroll();
-      });
+      //this.isNiceScroll();
     }
   }
 </script>
@@ -190,8 +198,9 @@
             flex: 1;
           }
           .title_right{
-            max-width: 80px;
+            max-width: 95px;
             margin-left: 20px;
+            padding-top: 30px;
           }
           h2{
             font-size: 24px;

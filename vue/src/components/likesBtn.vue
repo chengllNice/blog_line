@@ -68,8 +68,8 @@
       border: none;
       color: #ffffff;
       border-radius: 3px;
-      padding: 5px 15px;
-      font-size: 13px;
+      padding: 8px 20px;
+      font-size: 14px;
       outline: none;
       user-select: none;
       background-image: none;

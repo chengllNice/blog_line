@@ -6,7 +6,6 @@ import App from './App'
 import router from './router'
 import $ from 'jquery'
 import 'jquery.nicescroll'
-import vuescroll from 'vuescroll'
 import './assets/resources/boostrap/css/bootstrap.min.css'
 import './assets/resources/boostrap/js/bootstrap.min'
 import store from './vuex/store'
@@ -14,13 +13,12 @@ import store from './vuex/store'
 import Toast from './common_components/toast/toast'
 
 Vue.use(Toast);
-Vue.use(vuescroll)
 
 Vue.filter('dateFormat', (value) =>{
   let date = new Date(value);
   let year = date.getFullYear();
   let mouth = date.getMonth()+1;
-  let day = date.getDay();
+  let day = date.getDate();
   if(mouth<10){
     mouth = '0' + mouth;
   }
