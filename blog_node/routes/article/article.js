@@ -25,7 +25,6 @@ const dateTime = (day) => {
 
 //查询博文近一周的评论数和点赞数
 const articleAgr = (req, res, next) => {
-
   let dateArr = dateTime(7);
   let sevenDate = new Date(dateArr[0]);
   Article.find({
